@@ -316,7 +316,7 @@ class Bot(discord.Client):
 
 				self.controller.add_applicant(application)
 				await self.message(user, 'Your application has been submitted! ' +
-					'If you have additional characters or would like to sign up for an additional week, please apply again with **`!raid`**.')
+					'If you have additional characters or would like to sign up for an additional week, please apply again with **`!guildraid`**.')
 				return
 		except AttributeError:
 			await self.message(user, 'Error. Please try again.')
