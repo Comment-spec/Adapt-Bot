@@ -1,0 +1,15 @@
+bot_id: Njg3NzU1MzA0NDQ3OTAxNzE3.XmqZmA.QVJe4MiQLWYhLYiY-JXtmBzrTCw
+discord:
+  server: <Adapt>
+  message_channel: messages
+  command_channel: commands
+  error_channel: errors
+controller:
+  scope:
+  - https://www.googleapis.com/auth/spreadsheets
+  id: 132JqHNfgGns5tFyVgsxI0-L9lunShwxYASbrsVPKWYQ
+  ranges:
+    num_raids: Metadata!A2
+    types: Metadata!A4:B7
+    roster: Raid%s!A4:F43
+    info: Raid%s!A2:E2
