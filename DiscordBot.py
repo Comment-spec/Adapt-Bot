@@ -13,7 +13,7 @@ class Bot(discord.Client):
 		self.message_channel = None
 		self.command_channel = None
 		self.error_channel = None
-		self.command_list = ['!absent', '!change', '!help', '!commands', '!info', '!raid', '!guildlraid' '!guild', '!invites', '!advertise', '!raidcheck', 'roleassign', '!pugpurge']
+		self.command_list = ['!absent', '!change', '!help', '!commands', '!info', '!raid', '!guildlraid' '!guild', '!invites', '!advertise', '!raidcheck', '!roleassign', '!pugpurge']
 
 	async def on_ready(self):
 		for guild in self.guilds:
@@ -387,7 +387,7 @@ class Bot(discord.Client):
 				conversing, response = await self.conversation('Would you like to assign a role to this raid?\nType Yes or No (Or anything else really if you dont want to do it)', self.command_channel, check, 60.0)
 				response.content = response.content.lower()
 				if response.content == 'yes' or response.content == 'Yes':
-					conversing, response = await self.conversation('Please select the NUMBER of the following list of roles\n\n	1. MC Sunday Pug\n	2. MC Wednesday Pug\n\n If you no longer wish to assign a role then honestly just type anything else.', self.command_channel, check, 60.0)
+					conversing, response = await self.conversation('Please select the NUMBER of the following list of roles\n\n1. MC Sunday Pug\n2. MC Wednesday Pug\n3. Green Team\n\n If you no longer wish to assign a role then honestly just type anything else.', self.command_channel, check, 60.0)
 					if response.content == '1':
 						rolename = 'MC Sunday Pug'
 						if all_members_exist:
@@ -402,7 +402,13 @@ class Bot(discord.Client):
 								user = self.guild.get_member_named(character.discord)
 								await user.add_roles(discord.utils.get(user.guild.roles, name=rolename))
 							await self.message(self.command_channel, 'Role assigned\n')
-
+					elif response.content == '3':
+						rolename = 'Green Team'
+						if all_members_exist:
+							for character in my_raid.roster:
+								user = self.guild.get_member_named(character.discord)
+								await user.add_roles(discord.utils.get(user.guild.roles, name=rolename))
+							await self.message(self.command_channel, 'Role assigned\n')
 				if all_members_exist:
 					for character in my_raid.roster:
 						user = self.guild.get_member_named(character.discord)
@@ -476,7 +482,7 @@ class Bot(discord.Client):
 		conversing = True
 		try:
 			while conversing:
-				conversing, response = await self.conversation('Please select the NUMBER of the following list of roles you wish to remove the members of\n\n1. MC Sunday Pug\n2. MC Wednesday Pug\n\nIf you no longer wish to purge a role then honestly just type anything else.', self.command_channel, check, 60.0)
+				conversing, response = await self.conversation('Please select the NUMBER of the following list of roles you wish to remove the members of\n\n1. MC Sunday Pug\n2. MC Wednesday Pug\n3. Green Team\n\nIf you no longer wish to purge a role then honestly just type anything else.', self.command_channel, check, 60.0)
 				if response.content == '1':
 					role = discord.utils.get(user.guild.roles, name='MC Sunday Pug')
 					for member in members_list:
@@ -486,6 +492,13 @@ class Bot(discord.Client):
 					return
 				elif response.content == '2':
 					role = discord.utils.get(user.guild.roles, name='MC Wednesday Pug')
+					for member in members_list:
+						if role in member.roles:
+							await member.remove_roles(role)
+					await self.message(self.command_channel, 'All member from this role have been removed.')
+					return
+				elif response.content == '3':
+					role = discord.utils.get(user.guild.roles, name='Green Team')
 					for member in members_list:
 						if role in member.roles:
 							await member.remove_roles(role)
@@ -538,7 +551,7 @@ class Bot(discord.Client):
 				if response.content != 'Yes' and response.content != 'yes':
 					await self.message(self.command_channel, 'Raid assignment has been cancelled.')
 					return
-				conversing, response = await self.conversation('Please select the NUMBER of the following list of roles\n\n	1. MC Sunday Pug\n	2. MC Wednesday Pug\n\n If you no longer wish to assign a role then honestly just type anything else.', self.command_channel, check, 60.0)
+				conversing, response = await self.conversation('Please select the NUMBER of the following list of roles\n\n1. MC Sunday Pug\n2. MC Wednesday Pug\n3. Green Team\n\n If you no longer wish to assign a role then honestly just type anything else.', self.command_channel, check, 60.0)
 				if response.content == '1':
 					rolename = 'MC Sunday Pug'
 					if all_members_exist:
@@ -549,6 +562,14 @@ class Bot(discord.Client):
 					return
 				elif response.content == '2':
 					rolename = 'MC Wednesday Pug'
+					if all_members_exist:
+						for character in my_raid.roster:
+							user = self.guild.get_member_named(character.discord)
+							await user.add_roles(discord.utils.get(user.guild.roles, name=rolename))
+					await self.message(self.command_channel, 'Role assigned\n')
+					return
+				elif response.content == '3':
+					rolename = 'Green Team'
 					if all_members_exist:
 						for character in my_raid.roster:
 							user = self.guild.get_member_named(character.discord)
