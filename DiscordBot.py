@@ -216,10 +216,10 @@ class Bot(discord.Client):
 					application.update({'role': character_role.content})
 					conversing, character_guild = await self.conversation('What is the name of the Guild that your character is in?', user, check, 60.0)
 					application.update({'guild': character_guild.content})
-					conversing, soft_res_one = await self.conversation('What is the first item that you would like to soft reserve?', user, check, 120.0)
+					conversing, soft_res_one = await self.conversation('What is the item that you would like to soft reserve?', user, check, 120.0)
 					application.update({'soft_res_one': soft_res_one.content})
-					conversing, soft_res_two = await self.conversation('What is the second item that you would like to soft reserve?', user, check, 120.0)
-					application.update({'soft_res_two': soft_res_two.content})
+					#conversing, soft_res_two = await self.conversation('What is the second item that you would like to soft reserve?', user, check, 120.0)
+					#application.update({'soft_res_two': soft_res_two.content})
 					application.update({'discord_name': '{0}#{1}'.format(user.name, user.discriminator)})
 
 				if type.content == 'BWL':
